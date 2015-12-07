@@ -1,0 +1,89 @@
+body{
+   width:1274px;
+   font-family:Verdana,sans-serif;
+   font-size:13px;
+   margin:0 auto 0 auto;
+}
+header{
+   clear:both;
+   margin:0 auto 0 auto;
+   background-image:url(http://i58.tinypic.com/2duyyv.png);
+   width:1274px;
+   height:300px;
+}
+ul,li{
+   display:inline;
+   list-style:none;
+   padding:0;
+}
+
+nav a{
+   margin-left:40px;
+   margin-right:40px;
+   color:#cc99ff;
+}
+
+nav a{
+   text-decoration:none;
+   font-size:20px;
+   color:white;
+   margin-top:80px;
+}
+nav{
+   width:997px;
+   height:50px;
+   text-align:center;
+   margin-top:80px;
+   margin:0 auto 0 auto;
+   background-image:url(http://i61.tinypic.com/ehn7ts.png);
+   margin-left:120px;
+}
+h1{
+   color:#cc99ff;
+}
+h2{
+   color:#ff0099;
+}
+section{
+   margin-top:-40px;
+   width:650px;
+   float:left;
+   padding-left:5px;
+   padding-right:5px;
+   margin-left:150px;
+   margin-right:10px;
+   background-color:white;
+   box-shadow:0px 0px 1em #CCC;
+}
+aside{
+   width:285px;
+   float:left;
+   padding-left:5px;
+   background-color:white;
+   margin-top:-40px;
+   box-shadow:0px 0px 1em #CCC;
+}
+footer{
+   margin-left:120px;
+   width:997px;
+   height:20px;
+   clear:both;
+   padding-left:5px;
+   background-color:#c6e8ff;
+}
+#logotipo{
+   margin-left:500px;
+   margin-top:30px;
+}
+#quemsomos{
+   padding-left:30px;
+}
+.fotoquemsomos{
+   padding-left:25px;
+}
+#cabecalho{
+   width:1024px;
+   height:20px;
+   margin-left:-30px;
+   padding:0;
+}
