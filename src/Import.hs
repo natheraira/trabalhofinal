@@ -11,9 +11,9 @@ pRoutes = [parseRoutes|
     /postar CadastroPostR GET POST
     /cadastrar CadastroUserR GET POST
     /listarUser ListarUserR GET
-    /post/#PostId PostR GET
     /contato ContatoR GET POST
     /listarMsgs ListarMsgsR GET
     /login LoginR GET POST
     /home HomeUserR GET
+    /bye ByeR GET
 |]

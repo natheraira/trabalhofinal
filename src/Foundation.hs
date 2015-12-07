@@ -49,6 +49,7 @@ instance Yesod Sitio where
     isAuthorized ContatoR _ = return Authorized
     isAuthorized CadastroPostR _ = isUser
     isAuthorized CadastroUserR _ = isUser
+    isAuthorized ListarUserR _ = isUser
     isAuthorized ListarMsgsR _ = isUser
     isAuthorized LoginR _ = return Authorized
     isAuthorized _ _ = isUser
@@ -57,7 +58,9 @@ isUser = do
     mu <- lookupSession "_ID"
     return $ case mu of
         Nothing -> AuthenticationRequired
-        Just _ -> Authorized
+        Just "nath" -> Authorized
+        Just "raira" -> Authorized
+        Just _ -> Unauthorized "Soh os admins acessam aqui!"
 
 type Form a = Html -> MForm Handler (FormResult a, Widget)
 

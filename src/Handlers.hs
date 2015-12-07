@@ -37,11 +37,11 @@ widgetForm enctype widget = [whamlet|
     <header>
         <img src="http://i62.tinypic.com/vfa1qe.png" alt="Logotipo Makeup Lovers" id="logotipo">
         <nav>
-            <a href="/">Home
+            <a href=@{HomeUserR}>Home
             <a href=@{CadastroPostR}>Novo Post
-            <a href=@{CadastroUserR}>Novo Admin
             <a href=@{ListarUserR}>Administradores
             <a href=@{ListarMsgsR}>Contatos
+            <a href=@{ByeR}>Sair
     <section id="main">
             <h1>
                 Cadastro de post
@@ -92,13 +92,30 @@ widgetFormLogin x enctype widget y val = do
      toWidget $(luciusFile "css.lucius")
 
 widgetFormUser :: Enctype -> Widget -> Widget
-widgetFormUser enctype widget = [whamlet|
-            <h1>
-                Cadastro de usuário
-            <form method=post action=@{CadastroUserR} enctype=#{enctype}>
-                ^{widget}
-                <input type="submit" value="Cadastrar">
-|]
+widgetFormUser enctype widget = ([whamlet|
+<body>
+    <header>
+        <img src="http://i62.tinypic.com/vfa1qe.png" alt="Logotipo Makeup Lovers" id="logotipo">
+        <nav>
+            <a href=@{HomeUserR}>Home
+            <a href=@{CadastroPostR}>Novo Post
+            <a href=@{ListarUserR}>Administradores
+            <a href=@{ListarMsgsR}>Contatos
+            <a href=@{ByeR}>Sair
+    <section id="main">
+       <h1>Cadastro de usuário
+       <form method=post action=@{CadastroUserR} enctype=#{enctype}>
+           ^{widget}
+           <input type="submit" value="Cadastrar">
+    <aside>
+        <img src="http://i61.tinypic.com/zvv4i1.png" alt="Quem somos" id="quemsomos"/>
+        <img src="http://i61.tinypic.com/4u8bcn.png" alt="Foto Ráira Sany" title="Ráira Sany" class="fotoquemsomos"/>
+        <img src="http://i60.tinypic.com/2ng6cnl.png" alt="Foto Nathália" title="Nathália" class="fotoquemsomos"/>
+        <p>Nathália: 20 anos
+        <p>Ráira: 22 anos
+   <footer>
+        Desenvolvido por Nathália Souza e Ráira Medeiros
+|] >> toWidget $(luciusFile "css.lucius"))
 
 getHomeR :: Handler Html
 getHomeR = do
@@ -116,35 +133,10 @@ getHomeR = do
     <section id="main">
        <h1>Listagem de todos os posts do Blog (com bd)
            $forall Entity pid post <- listaP
-                                      <h2><a href=@{PostR pid}>#{postTitulo post} <br>
-    <aside>
-        <img src="http://i61.tinypic.com/zvv4i1.png" alt="Quem somos" id="quemsomos"/>
-        <img src="http://i61.tinypic.com/4u8bcn.png" alt="Foto Ráira Sany" title="Ráira Sany" class="fotoquemsomos"/>
-        <img src="http://i60.tinypic.com/2ng6cnl.png" alt="Foto Nathália" title="Nathália" class="fotoquemsomos"/>
-        <p>Nathália: 20 anos
-        <p>Ráira: 22 anos
-   <footer>
-        Desenvolvido por Nathália Souza e Ráira Medeiros
-|] >> toWidget $(luciusFile "css.lucius"))
-
-getPostR :: PostId -> Handler Html
-getPostR pid = do
-                 post <- runDB $ get404 pid
-                 defaultLayout ([whamlet|
-<body>
-    <header>
-        <img src="http://i62.tinypic.com/vfa1qe.png" alt="Logotipo Makeup Lovers" id="logotipo">
-        <nav>
-            <a href="/">Home
-            <a href=@{QuemSomosR}>Quem somos
-            <a href=@{MakeR}>Makeup
-            <a href=@{ModaR}>Moda
-            <a href=@{ContatoR}>Contato
-    <section id="main">
-       <h1>Post:
-                    <h2>#{postTitulo post} <br>
-                    <p>Categoria: #{postCategoria post} <br>
-                    <p>#{postConteudo post} <br>
+             <h2> #{postTitulo post} <br>
+             <p> #{postConteudo post} <br>
+             <h3> Autor: #{postAutor post} <br>
+             <h3> Categoria: #{postCategoria post}
     <aside>
         <img src="http://i61.tinypic.com/zvv4i1.png" alt="Quem somos" id="quemsomos"/>
         <img src="http://i61.tinypic.com/4u8bcn.png" alt="Foto Ráira Sany" title="Ráira Sany" class="fotoquemsomos"/>
@@ -173,9 +165,9 @@ getMakeR = do
      <h1>Posts da categoria Make
          $forall Entity pid post <- listaMake
              <h2> #{postTitulo post} <br>
-             <h3> #{postConteudo post} <br>
+             <p> #{postConteudo post} <br>
              <h3> Autor: #{postAutor post} <br>
-             <h3> #{postCategoria post}
+             <h3> Categoria: #{postCategoria post}
 
  <aside>
      <img src="http://i61.tinypic.com/zvv4i1.png" alt="Quem somos" id="quemsomos"/>
@@ -205,9 +197,9 @@ getModaR = do
      <h1>Posts da categoria Moda
          $forall Entity pid post <- listaModa
              <h2> #{postTitulo post} <br>
-             <h3> #{postConteudo post} <br>
+             <p> #{postConteudo post} <br>
              <h3> Autor: #{postAutor post} <br>
-             <h3> #{postCategoria post}
+             <h3> Categoria: #{postCategoria post}
 
  <aside>
      <img src="http://i61.tinypic.com/zvv4i1.png" alt="Quem somos" id="quemsomos"/>
@@ -225,11 +217,11 @@ widgetHtmlUser = [whamlet|
   <header>
     <img src="http://i62.tinypic.com/vfa1qe.png" alt="Logotipo Makeup Lovers" id="logotipo">
         <nav>
-            <a href="/">Home
+            <a href=@{HomeUserR}>Home
             <a href=@{CadastroPostR}>Novo Post
-            <a href=@{CadastroUserR}>Novo Admin
             <a href=@{ListarUserR}>Administradores
             <a href=@{ListarMsgsR}>Contatos
+            <a href=@{ByeR}>Sair
 
  <section id="main">
     <h1>Bem-vindo administrador!
@@ -269,6 +261,63 @@ widgetHtmlQuemSomos = [whamlet|
  <footer>
     Desenvolvido por Nathália Souza e Ráira Medeiros
 |]
+
+getListarUserR :: Handler Html
+getListarUserR = do
+               listaUser <- runDB $ selectList [][Asc UserLogin]
+               defaultLayout ([whamlet|
+<body>
+  <header>
+    <img src="http://i62.tinypic.com/vfa1qe.png" alt="Logotipo Makeup Lovers" id="logotipo">
+        <nav>
+            <a href=@{HomeUserR}>Home
+            <a href=@{CadastroPostR}>Novo Post
+            <a href=@{ListarUserR}>Administradores
+            <a href=@{ListarMsgsR}>Contatos
+            <a href=@{ByeR}>Sair
+
+ <section id="main">
+     <h1>Usuários Cadastrados:
+                    $forall Entity pid user <- listaUser
+                     <h2> #{userLogin user} <br>
+ <aside>
+     <img src="http://i61.tinypic.com/zvv4i1.png" alt="Quem somos" id="quemsomos"/>
+     <img src="http://i61.tinypic.com/4u8bcn.png" alt="Foto Ráira Sany" title="Ráira Sany" class="fotoquemsomos"/>
+     <img src="http://i60.tinypic.com/2ng6cnl.png" alt="Foto Nathália" title="Nathália" class="fotoquemsomos"/>
+     <p>Nathália: 20 anos
+     <p>Ráira: 22 anos
+ <footer>
+    Desenvolvido por Nathália Souza e Ráira Medeiros
+|] >> toWidget $(luciusFile "css.lucius"))
+
+getListarMsgsR :: Handler Html
+getListarMsgsR = do
+               listaMsgs <- runDB $ selectList [][Asc ContatoAssunto]
+               defaultLayout ([whamlet|
+<body>
+  <header>
+    <img src="http://i62.tinypic.com/vfa1qe.png" alt="Logotipo Makeup Lovers" id="logotipo">
+        <nav>
+            <a href=@{HomeUserR}>Home
+            <a href=@{CadastroPostR}>Novo Post
+            <a href=@{ListarUserR}>Administradores
+            <a href=@{ListarMsgsR}>Contatos
+            <a href=@{ByeR}>Sair
+
+ <section id="main">
+     <h1>Mensagens recebidas:
+                    $forall Entity pid contato <- listaMsgs
+                     <h2> #{contatoAssunto contato} <br>
+                     <h3> #{contatoMensagem contato} <br>
+ <aside>
+     <img src="http://i61.tinypic.com/zvv4i1.png" alt="Quem somos" id="quemsomos"/>
+     <img src="http://i61.tinypic.com/4u8bcn.png" alt="Foto Ráira Sany" title="Ráira Sany" class="fotoquemsomos"/>
+     <img src="http://i60.tinypic.com/2ng6cnl.png" alt="Foto Nathália" title="Nathália" class="fotoquemsomos"/>
+     <p>Nathália: 20 anos
+     <p>Ráira: 22 anos
+ <footer>
+    Desenvolvido por Nathália Souza e Ráira Medeiros
+|] >> toWidget $(luciusFile "css.lucius"))
 
 getQuemSomosR :: Handler Html
 getQuemSomosR = defaultLayout (widgetHtmlQuemSomos >> toWidget $(luciusFile "css.lucius"))
@@ -325,29 +374,10 @@ postCadastroUserR = do
                         |]
                     _ -> redirect CadastroUserR
 
-getListarUserR :: Handler Html
-getListarUserR = do
-               listaUser <- runDB $ selectList [][Asc UserLogin]
-               defaultLayout [whamlet|
-                    <h1>Usuários Cadastrados:
-                    $forall Entity pid user <- listaUser
-                     <h2> #{userLogin user} <br>
-               |]
-
-getListarMsgsR :: Handler Html
-getListarMsgsR = do
-               listaMsgs <- runDB $ selectList [][Asc ContatoAssunto]
-               defaultLayout [whamlet|
-                    <h1>Mensagens recebidas:
-                    $forall Entity pid contato <- listaMsgs
-                     <h2> #{contatoAssunto contato} <br>
-                     <h3> #{contatoMensagem contato} <br>
-               |]
-
 getLoginR :: Handler Html
 getLoginR = do
     (wid,enc) <- generateFormPost formUser
-    defaultLayout $ widgetFormLogin LoginR enc wid "" "Log in"
+    defaultLayout $ widgetFormLogin LoginR enc wid "" "Login"
 
 postLoginR :: Handler Html
 postLoginR = do
@@ -363,6 +393,11 @@ postLoginR = do
                     setMessage $ [shamlet| Invalid user |]
                     redirect LoginR
         _ -> redirect LoginR
+
+getByeR :: Handler Html
+getByeR = do
+    deleteSession "_ID"
+    defaultLayout [whamlet| BYE! |]
 
 connStr = "dbname=denn8aphhsbks6 host=ec2-107-22-187-89.compute-1.amazonaws.com user=ylsbjsmhcifelq password=oeu_XbERka9NuUhhC8x3KVXKlO"
 
